@@ -10,13 +10,10 @@ public abstract class AbstractFeed implements IFeed {
 
     public AbstractFeed() throws Exception {
         _xml = new XmlService();
-        build();
     }
 
     public void print(final OutputStream out) throws Exception {
         // write response
         _xml.write(out);
     }
-
-    protected abstract void build() throws Exception;
 }

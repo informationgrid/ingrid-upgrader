@@ -1,13 +1,14 @@
 package de.ingrid.upgrader.model;
 
+import java.net.InetAddress;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.zip.CRC32;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.w3c.dom.Element;
+
+import de.ingrid.upgrader.servlet.DetailsServlet;
 
 public class IngridFeed extends AtomFeed {
 
@@ -15,16 +16,18 @@ public class IngridFeed extends AtomFeed {
 
     private final String _name = "http://www.portalu.de";
 
-    private final String _url = "http://www.portalu.de";
-
     private final String _title = "iPlug Versionen";
+
+    private final String _url;
 
     public IngridFeed(final Map<Integer, Document> documents) throws Exception {
         super();
         _documents = documents;
+        final InetAddress host = InetAddress.getLocalHost();
+        _url = "http://" + host.getCanonicalHostName() + ":8080/";
+        build();
     }
 
-    @Override
     protected void build() {
         // root node
         final Element feed = _xml.addNode(_xml.getDocument(), "feed", null);
@@ -48,7 +51,7 @@ public class IngridFeed extends AtomFeed {
             _xml.addNode(entry, "title", document.get(IKeys.PATH_FIELD));
             // link
             final Element link = _xml.addNode(entry, "link", null);
-            _xml.addAttribute(link, "href", _url + "?id=" + id);
+            _xml.addAttribute(link, "href", _url + DetailsServlet.URI + "?id=" + id);
             // id
             _xml.addNode(entry, "id", "" + id);
             // updated
@@ -93,6 +96,27 @@ public class IngridFeed extends AtomFeed {
         return sb.toString();
     }
 
+    private static String createSummary(final Document document) {
+        // dataname
+        String file = document.get(IKeys.PATH_FIELD);
+        int index = -1;
+        while ((index = file.indexOf('/')) > -1) {
+            file = file.substring(index + 1);
+        }
+        // iplug type
+        String iplug = document.get(IKeys.IPLUG_TYPE_FIELD);
+        if (iplug == null) {
+            iplug = "unknown";
+        }
+        // iplug version
+        String version = document.get(IKeys.VERSION_FIELD);
+        if (version == null) {
+            version = "unknown";
+        }
+        // return
+        return "file: " + file + " - iPlug: '" + iplug + "' - version: '" + version + "'";
+    }
+
     private String getFirstDate() {
         long time = Long.MAX_VALUE;
         for (final Integer id : _documents.keySet()) {
@@ -103,25 +127,5 @@ public class IngridFeed extends AtomFeed {
             }
         }
         return getDate(time);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static String createSummary(final Document document) {
-        final StringBuilder sb = new StringBuilder("");
-        final Enumeration<Field> fields = document.fields();
-        while (fields.hasMoreElements()) {
-            final Field field = fields.nextElement();
-            sb.append("'");
-            sb.append(field.name());
-            sb.append("'");
-            sb.append(":");
-            sb.append("'");
-            sb.append(field.stringValue());
-            sb.append("'");
-            if (fields.hasMoreElements()) {
-                sb.append(" ");
-            }
-        }
-        return sb.toString();
     }
 }
