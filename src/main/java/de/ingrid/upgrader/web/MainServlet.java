@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
 import de.ingrid.upgrader.model.AtomFeed;
@@ -16,6 +17,8 @@ import de.ingrid.upgrader.model.IngridFeed;
 import de.ingrid.upgrader.service.LuceneSearcher;
 
 public class MainServlet extends HttpServlet {
+
+    protected static final Logger LOG = Logger.getLogger(MainServlet.class);
 
     private static final long serialVersionUID = 2266104277129346263L;
 
@@ -25,6 +28,10 @@ public class MainServlet extends HttpServlet {
             IOException {
         // open searcher
         final LuceneSearcher searcher = LuceneSearcher.getInstance();
+        if (searcher == null) {
+            LOG.info("there is currently no index to search in - PLEASE WAIT - indexer may be running");
+            return;
+        }
 
         // search
         Map<Integer, Document> results;

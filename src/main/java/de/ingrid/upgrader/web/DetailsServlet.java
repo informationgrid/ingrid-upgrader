@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
@@ -19,6 +20,8 @@ public class DetailsServlet extends HttpServlet {
 
     public static final String URI = "details";
 
+    protected static final Logger LOG = Logger.getLogger(DetailsServlet.class);
+
     private static final long serialVersionUID = 1512560787652617165L;
 
     @Override
@@ -27,7 +30,12 @@ public class DetailsServlet extends HttpServlet {
         final Integer id = Integer.parseInt(request.getParameter(IKeys.ID_PARAMETER));
         if (id != null) {
             // get document
-            final Document document = LuceneSearcher.getInstance().getReader().document(id);
+            final LuceneSearcher searcher = LuceneSearcher.getInstance();
+            if (searcher == null) {
+                LOG.info("there is currently no index to search in - PLEASE WAIT - indexer may be running");
+                return;
+            }
+            final Document document = searcher.getReader().document(id);
             final ServletOutputStream out = response.getOutputStream();
             // print details
             printHtml(out, id, document);
