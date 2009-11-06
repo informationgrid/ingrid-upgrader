@@ -46,7 +46,7 @@ public class IngridFeed extends AtomFeed {
             // entry
             final Element entry = _xml.addNode(feed, "entry", null);
             // title
-            _xml.addNode(entry, "title", document.get(IKeys.PATH_FIELD));
+            _xml.addNode(entry, "title", getFileName(document.get(IKeys.PATH_FIELD)));
             // link
             final Element link = _xml.addNode(entry, "link", null);
             _xml.addAttribute(link, "href", _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id);
@@ -89,12 +89,6 @@ public class IngridFeed extends AtomFeed {
     }
 
     private static String createSummary(final Document document) {
-        // dataname
-        String file = document.get(IKeys.PATH_FIELD);
-        int index = -1;
-        while ((index = file.indexOf('/')) > -1) {
-            file = file.substring(index + 1);
-        }
         // iplug type
         String iplug = document.get(IKeys.IPLUG_TYPE_FIELD);
         if (iplug == null) {
@@ -106,7 +100,16 @@ public class IngridFeed extends AtomFeed {
             version = "unknown";
         }
         // return
-        return "file: " + file + " - iPlug: '" + iplug + "' - version: '" + version + "'";
+        return "iPlug: '" + iplug + "' - version: '" + version + "'";
+    }
+
+    private static String getFileName(final String path) {
+        String file = path;
+        int index = -1;
+        while ((index = file.indexOf('/')) > -1) {
+            file = file.substring(index + 1);
+        }
+        return file;
     }
 
     private String getFirstDate() {
