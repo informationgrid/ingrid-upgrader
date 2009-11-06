@@ -100,8 +100,9 @@ public class ManifestIndexer extends Thread {
     private Document fileToDocument(final File file) {
         // open manifest file
         Manifest man = null;
+        final String path = file.getAbsolutePath();
         try {
-            final URL url = new URL("jar:file:" + file.getAbsolutePath() + "!/META-INF/MANIFEST.MF");
+            final URL url = new URL("jar:file:" + path + "!/META-INF/MANIFEST.MF");
             LOG.debug("   opening manifest file");
             man = new Manifest(url.openStream());
 
@@ -117,9 +118,10 @@ public class ManifestIndexer extends Thread {
                 LOG.debug("   creating document");
                 doc = new Document();
                 // add path
-                doc.add(Field.Text(IKeys.PATH_FIELD, file.getAbsolutePath()));
+                doc.add(Field.Text(IKeys.PATH_FIELD, path));
                 // add last modified
-                doc.add(Field.Keyword(IKeys.UPDATED_FIELD, "" + file.lastModified()));
+                final long updated = file.lastModified();
+                doc.add(Field.Keyword(IKeys.UPDATED_FIELD, "" + updated));
                 // add attributes
                 for (final Object obj : attr.keySet()) {
                     final String key = obj.toString();

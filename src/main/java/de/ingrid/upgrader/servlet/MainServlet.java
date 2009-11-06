@@ -2,7 +2,7 @@ package de.ingrid.upgrader.servlet;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,21 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.lucene.document.Document;
 
-
 import de.ingrid.upgrader.model.AtomFeed;
 import de.ingrid.upgrader.model.IKeys;
+import de.ingrid.upgrader.model.IngridFeed;
 import de.ingrid.upgrader.service.LuceneSearcher;
 
 public class MainServlet extends HttpServlet {
 
     private static final long serialVersionUID = 2266104277129346263L;
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
             IOException {
-        // get request map
-        final Map<String, String> parameters = request.getParameterMap();
 
         // open searcher
         final String indexPath = System.getProperty(IKeys.INDEX_PARAMTER);
@@ -39,8 +37,25 @@ public class MainServlet extends HttpServlet {
         final LuceneSearcher searcher = LuceneSearcher.getInstance();
 
         // search
-        List<Document> results;
+        Map<Integer, Document> results;
         try {
+            // get request map
+            final Map<String, String> parameters = new HashMap<String, String>();
+            final Map<String, String[]> map = request.getParameterMap();
+            for (final String key : map.keySet()) {
+                final String[] values = map.get(key);
+                if (values != null) {
+                    final StringBuilder value = new StringBuilder();
+                    for (int i = 0; i < values.length; i++) {
+                        value.append(values[i]);
+                        if (i != (values.length - 1)) {
+                            value.append(" ");
+                        }
+                    }
+                    parameters.put(key, value.toString());
+                }
+            }
+            // do search
             results = searcher.search(parameters);
         } catch (final Exception e) {
             e.printStackTrace();
@@ -48,8 +63,8 @@ public class MainServlet extends HttpServlet {
         }
 
         // create feed and print it
-        final AtomFeed feed = new AtomFeed(results);
         try {
+            final AtomFeed feed = new IngridFeed(results);
             feed.print(response);
         } catch (final Exception e) {
             e.printStackTrace();
