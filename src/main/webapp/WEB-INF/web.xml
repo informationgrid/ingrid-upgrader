@@ -13,4 +13,14 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>details</servlet-name>
+        <servlet-class>de.ingrid.upgrader.servlet.DetailsServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>details</servlet-name>
+        <url-pattern>/details</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
