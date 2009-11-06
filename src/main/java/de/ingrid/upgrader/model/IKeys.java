@@ -15,4 +15,6 @@ public interface IKeys {
     public static final String TEMP_FOLDER = "tmpIndex";
 
     public static final String INDEX_PARAMTER = "index";
+
+    public static final String ID_PARAMETER = "id";
 }

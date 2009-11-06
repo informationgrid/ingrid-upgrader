@@ -3,7 +3,6 @@ package de.ingrid.upgrader.model;
 import java.net.InetAddress;
 import java.util.Calendar;
 import java.util.Map;
-import java.util.zip.CRC32;
 
 import org.apache.lucene.document.Document;
 import org.w3c.dom.Element;
@@ -37,7 +36,7 @@ public class IngridFeed extends AtomFeed {
         // title
         _xml.addNode(feed, "title", _title);
         // id
-        _xml.addNode(feed, "id", generateId(_title, _url));
+        _xml.addNode(feed, "id", _url);
         // updated
         _xml.addNode(feed, "updated", getFirstDate());
 
@@ -50,7 +49,7 @@ public class IngridFeed extends AtomFeed {
             _xml.addNode(entry, "title", document.get(IKeys.PATH_FIELD));
             // link
             final Element link = _xml.addNode(entry, "link", null);
-            _xml.addAttribute(link, "href", _url + DetailsServlet.URI + "?id=" + id);
+            _xml.addAttribute(link, "href", _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id);
             // id
             _xml.addNode(entry, "id", "" + id);
             // updated
@@ -60,12 +59,6 @@ public class IngridFeed extends AtomFeed {
             final String summary = createSummary(document);
             _xml.addNode(entry, "summary", summary);
         }
-    }
-
-    public static String generateId(final Object hash, final Object crc) {
-        final CRC32 crc32 = new CRC32();
-        crc32.update(crc.toString().getBytes());
-        return "ingrid:id:" + Math.abs(hash.hashCode()) + "-" + crc32.getValue();
     }
 
     public static String getDate(final long time) {
