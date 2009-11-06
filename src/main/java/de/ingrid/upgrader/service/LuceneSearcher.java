@@ -13,22 +13,18 @@ import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 
-import de.ingrid.upgrader.model.IKeys;
-
 public class LuceneSearcher {
 
     private static LuceneSearcher _instance;
 
-    private final IndexReader _reader;
+    private IndexReader _reader;
 
-    private final IndexSearcher _searcher;
+    private IndexSearcher _searcher;
 
     private final StandardAnalyzer _analyzer;
 
-    private LuceneSearcher(final File sourceFolder) throws Exception {
-        final File indexFolder = new File(sourceFolder, IKeys.INDEX_FOLDER);
-        _reader = IndexReader.open(indexFolder);
-        _searcher = new IndexSearcher(_reader);
+    private LuceneSearcher(final File indexFolder) throws Exception {
+        openReader(indexFolder);
         _analyzer = new StandardAnalyzer();
     }
 
@@ -45,6 +41,19 @@ public class LuceneSearcher {
 
     public static LuceneSearcher getInstance() {
         return _instance;
+    }
+
+    public IndexReader getReader() {
+        return _reader;
+    }
+
+    public void closeReader() throws Exception {
+        _reader.close();
+    }
+
+    public void openReader(final File indexFolder) throws Exception {
+        _reader = IndexReader.open(indexFolder);
+        _searcher = new IndexSearcher(_reader);
     }
 
     public Map<Integer, Document> search(final Map<String, String> parameters) throws Exception {

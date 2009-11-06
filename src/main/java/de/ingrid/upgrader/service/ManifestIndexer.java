@@ -2,8 +2,10 @@ package de.ingrid.upgrader.service;
 
 import java.io.File;
 import java.net.URL;
+import java.util.TimerTask;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.zip.CRC32;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -13,7 +15,7 @@ import org.apache.lucene.index.IndexWriter;
 
 import de.ingrid.upgrader.model.IKeys;
 
-public class ManifestIndexer extends Thread {
+public class ManifestIndexer extends TimerTask {
 
     protected static final Logger LOG = Logger.getLogger(ManifestIndexer.class);
 
@@ -30,9 +32,11 @@ public class ManifestIndexer extends Thread {
 
     @Override
     public void run() {
-        LOG.debug("try to start indexing");
+        LOG.debug("try to start indexer");
         if (!_isRunning) {
+            // index
             LOG.info("begin indexing...");
+            // lock thread
             _isRunning = true;
             try {
                 index();
@@ -40,9 +44,10 @@ public class ManifestIndexer extends Thread {
                 LOG.error("indexing failed!", e);
             }
             LOG.info("... indexing done");
+            // release thread
             _isRunning = false;
         } else {
-            LOG.info("indexing is still running");
+            LOG.debug("indexer is still running");
         }
     }
 
@@ -68,11 +73,24 @@ public class ManifestIndexer extends Thread {
         writer.optimize();
         writer.close();
 
+        // close searcher
+        final LuceneSearcher searcher = LuceneSearcher.getInstance();
+        if (searcher != null) {
+            searcher.closeReader();
+        }
+
         // rename index
         LOG.debug(" renaming tmp index folder");
         final File folder = new File(_targetFolder, IKeys.INDEX_FOLDER);
         delete(folder);
         tmp.renameTo(folder);
+
+        // open new searcher
+        if (searcher == null) {
+            LuceneSearcher.createInstance(folder);
+        } else {
+            searcher.openReader(folder);
+        }
     }
 
     private void addDocuments(final IndexWriter writer, final File file) throws Exception {
@@ -122,6 +140,8 @@ public class ManifestIndexer extends Thread {
                 // add last modified
                 final long updated = file.lastModified();
                 doc.add(Field.Keyword(IKeys.UPDATED_FIELD, "" + updated));
+                // add id
+                doc.add(Field.Keyword(IKeys.ID_FIELD, generateId(path, updated)));
                 // add attributes
                 for (final Object obj : attr.keySet()) {
                     final String key = obj.toString();
@@ -153,6 +173,12 @@ public class ManifestIndexer extends Thread {
             }
         }
         file.delete();
+    }
+
+    private static String generateId(final Object crc, final Object hash) {
+        final CRC32 crc32 = new CRC32();
+        crc32.update(crc.toString().getBytes());
+        return crc32.getValue() + "-" + Math.abs(hash.toString().hashCode());
     }
 
     public static void main(final String[] args) throws Exception {

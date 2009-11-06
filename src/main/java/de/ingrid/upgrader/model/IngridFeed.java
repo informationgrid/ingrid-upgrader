@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.lucene.document.Document;
 import org.w3c.dom.Element;
 
-import de.ingrid.upgrader.servlet.DetailsServlet;
+import de.ingrid.upgrader.web.DetailsServlet;
 
 public class IngridFeed extends AtomFeed {
 
@@ -51,7 +51,7 @@ public class IngridFeed extends AtomFeed {
             final Element link = _xml.addNode(entry, "link", null);
             _xml.addAttribute(link, "href", _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id);
             // id
-            _xml.addNode(entry, "id", "" + id);
+            _xml.addNode(entry, "id", document.get(IKeys.ID_FIELD));
             // updated
             final long time = Long.parseLong(document.get(IKeys.UPDATED_FIELD));
             _xml.addNode(entry, "updated", getDate(time));

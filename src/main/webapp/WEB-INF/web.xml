@@ -3,9 +3,13 @@
 
     <display-name>ingrid-upgrader</display-name>
     
+    <listener>
+        <listener-class>de.ingrid.upgrader.web.ContextListener</listener-class>
+    </listener>
+    
     <servlet>
         <servlet-name>main</servlet-name>
-        <servlet-class>de.ingrid.upgrader.servlet.MainServlet</servlet-class>
+        <servlet-class>de.ingrid.upgrader.web.MainServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -15,7 +19,7 @@
     
     <servlet>
         <servlet-name>details</servlet-name>
-        <servlet-class>de.ingrid.upgrader.servlet.DetailsServlet</servlet-class>
+        <servlet-class>de.ingrid.upgrader.web.DetailsServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
