@@ -18,13 +18,12 @@ public class IngridFeed extends AtomFeed {
 
     private final String _title = "iPlug Versionen";
 
-    private final String _url;
+    private String _url = "http://{HOST}:8080/";
 
     public IngridFeed(final Map<Integer, Document> documents) throws Exception {
         super();
         _documents = documents;
-        final InetAddress host = InetAddress.getLocalHost();
-        _url = "http://" + host.getCanonicalHostName() + ":8080/";
+        _url = _url.replace("{HOST}", InetAddress.getLocalHost().getCanonicalHostName());
         build();
     }
 
