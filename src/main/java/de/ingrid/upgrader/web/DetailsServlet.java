@@ -18,7 +18,7 @@ import de.ingrid.upgrader.service.LuceneSearcher;
 
 public class DetailsServlet extends HttpServlet {
 
-    public static final String URI = "details";
+    public static final String URI = "upgrader/details";
 
     protected static final Logger LOG = Logger.getLogger(DetailsServlet.class);
 
@@ -27,19 +27,26 @@ public class DetailsServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
             IOException {
-        final Integer id = Integer.parseInt(request.getParameter(IKeys.ID_PARAMETER));
-        if (id != null) {
-            // get document
-            final LuceneSearcher searcher = LuceneSearcher.getInstance();
-            if (searcher == null) {
-                LOG.info("there is currently no index to search in - PLEASE WAIT - indexer may be running");
-                return;
-            }
-            final Document document = searcher.getReader().document(id);
-            final ServletOutputStream out = response.getOutputStream();
-            // print details
-            printHtml(out, id, document);
+        // get parameter
+        Integer id;
+        try {
+            id = Integer.parseInt(request.getParameter(IKeys.ID_PARAMETER));
+        } catch (final Exception e) {
+            return;
         }
+
+        // get searcher
+        final LuceneSearcher searcher = LuceneSearcher.getInstance();
+        if (searcher == null) {
+            return;
+        }
+
+        // get document
+        final Document document = searcher.getReader().document(id);
+        final ServletOutputStream out = response.getOutputStream();
+
+        // print details
+        printHtml(out, id, document);
     }
 
     private void printHtml(final ServletOutputStream out, final int id, final Document document) throws IOException {

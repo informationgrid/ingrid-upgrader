@@ -8,13 +8,17 @@
     </listener>
     
     <servlet>
-        <servlet-name>main</servlet-name>
-        <servlet-class>de.ingrid.upgrader.web.MainServlet</servlet-class>
+        <servlet-name>feed</servlet-name>
+        <servlet-class>de.ingrid.upgrader.web.FeedServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>main</servlet-name>
+        <servlet-name>feed</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>feed</servlet-name>
+        <url-pattern>/upgrader</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -24,7 +28,18 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>details</servlet-name>
-        <url-pattern>/details</url-pattern>
+        <url-pattern>/upgrader/details</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>download</servlet-name>
+        <servlet-class>de.ingrid.upgrader.web.DownloadServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>download</servlet-name>
+        <url-pattern>/upgrader/download/*</url-pattern>
     </servlet-mapping>
     
 </web-app>

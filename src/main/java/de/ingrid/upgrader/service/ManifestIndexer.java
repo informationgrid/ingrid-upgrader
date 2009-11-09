@@ -27,9 +27,7 @@ public class ManifestIndexer extends TimerTask {
 
     private static boolean _isRunning = false;
 
-    private static boolean _first = true;
-
-    private static int _hash = 0;
+    private static Integer _hash = null;
 
     public ManifestIndexer(final File sourceFolder, final File targetFolder) {
         _sourceFolder = sourceFolder;
@@ -47,7 +45,7 @@ public class ManifestIndexer extends TimerTask {
             final List<File> files = new ArrayList<File>();
             getCompressedFiles(files, _sourceFolder);
             final int hash = files.hashCode();
-            if (_first || hash != _hash) {
+            if (_hash == null || hash != _hash) {
                 // index
                 LOG.info("... filesystem changed");
                 LOG.info("begin indexing...");
@@ -56,7 +54,6 @@ public class ManifestIndexer extends TimerTask {
                 } catch (final Exception e) {
                     LOG.error("indexing failed!", e);
                 }
-                _first = false;
                 _hash = hash;
                 LOG.info("... indexing done");
             } else {

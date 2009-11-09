@@ -16,9 +16,11 @@ import de.ingrid.upgrader.model.AtomFeed;
 import de.ingrid.upgrader.model.IngridFeed;
 import de.ingrid.upgrader.service.LuceneSearcher;
 
-public class MainServlet extends HttpServlet {
+public class FeedServlet extends HttpServlet {
 
-    protected static final Logger LOG = Logger.getLogger(MainServlet.class);
+    protected static final Logger LOG = Logger.getLogger(FeedServlet.class);
+
+    public static final String URI = "upgrader";
 
     private static final long serialVersionUID = 2266104277129346263L;
 
@@ -26,10 +28,15 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
             IOException {
-        // open searcher
+        // redirect
+        if (!request.getRequestURI().endsWith(URI)) {
+            response.sendRedirect(URI);
+            return;
+        }
+
+        // get searcher
         final LuceneSearcher searcher = LuceneSearcher.getInstance();
         if (searcher == null) {
-            LOG.info("there is currently no index to search in - PLEASE WAIT - indexer may be running");
             return;
         }
 

@@ -8,6 +8,7 @@ import org.apache.lucene.document.Document;
 import org.w3c.dom.Element;
 
 import de.ingrid.upgrader.web.DetailsServlet;
+import de.ingrid.upgrader.web.DownloadServlet;
 
 public class IngridFeed extends AtomFeed {
 
@@ -46,18 +47,21 @@ public class IngridFeed extends AtomFeed {
             // entry
             final Element entry = _xml.addNode(feed, "entry", null);
             // title
-            _xml.addNode(entry, "title", getFileName(document.get(IKeys.PATH_FIELD)));
+            final String fileName = getFileName(document.get(IKeys.PATH_FIELD));
+            _xml.addNode(entry, "title", fileName);
             // link
             final Element link = _xml.addNode(entry, "link", null);
-            _xml.addAttribute(link, "href", _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id);
+            _xml.addAttribute(link, "href", _url + DownloadServlet.URI + "/" + fileName + "?" + IKeys.ID_PARAMETER
+                    + "=" + id);
             // id
             _xml.addNode(entry, "id", document.get(IKeys.ID_FIELD));
             // updated
             final long time = Long.parseLong(document.get(IKeys.UPDATED_FIELD));
             _xml.addNode(entry, "updated", getDate(time));
             // summary
-            final String summary = createSummary(document);
-            _xml.addNode(entry, "summary", summary);
+            final String summary = createSummary(document, id);
+            final Element content = _xml.addNode(entry, "summary", summary);
+            _xml.addAttribute(content, "type", "html");
         }
     }
 
@@ -88,7 +92,7 @@ public class IngridFeed extends AtomFeed {
         return sb.toString();
     }
 
-    private static String createSummary(final Document document) {
+    private String createSummary(final Document document, final int id) {
         // iplug type
         String iplug = document.get(IKeys.IPLUG_TYPE_FIELD);
         if (iplug == null) {
@@ -99,8 +103,10 @@ public class IngridFeed extends AtomFeed {
         if (version == null) {
             version = "unknown";
         }
+        // link
+        final String link = _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id;
         // return
-        return "iPlug: '" + iplug + "' - version: '" + version + "'";
+        return "iPlug: '" + iplug + "' - version: '" + version + "' <a href=\"" + link + "\">(details)</a>";
     }
 
     private static String getFileName(final String path) {

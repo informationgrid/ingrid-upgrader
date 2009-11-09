@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -14,6 +15,8 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 
 public class LuceneSearcher {
+
+    protected static final Logger LOG = Logger.getLogger(LuceneSearcher.class);
 
     private static LuceneSearcher _instance;
 
@@ -40,6 +43,9 @@ public class LuceneSearcher {
     }
 
     public static LuceneSearcher getInstance() {
+        if (_instance == null) {
+            LOG.info("there is currently no index to search in - PLEASE WAIT - indexer may be running");
+        }
         return _instance;
     }
 
