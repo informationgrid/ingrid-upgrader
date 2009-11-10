@@ -106,7 +106,7 @@ public class IngridFeed extends AtomFeed {
         // link
         final String link = _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id;
         // return
-        return "iPlug: '" + iplug + "' - version: '" + version + "' <a href=\"" + link + "\">(details)</a>";
+        return "iPlug: '" + iplug + "'<br />version: '" + version + "'<br /><a href=\"" + link + "\">(more details)</a>";
     }
 
     private static String getFileName(final String path) {
