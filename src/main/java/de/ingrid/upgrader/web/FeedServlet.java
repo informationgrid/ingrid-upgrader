@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
 import de.ingrid.upgrader.model.AtomFeed;
+import de.ingrid.upgrader.model.IKeys;
 import de.ingrid.upgrader.model.IngridFeed;
 import de.ingrid.upgrader.service.LuceneSearcher;
 
@@ -68,7 +69,10 @@ public class FeedServlet extends HttpServlet {
 
         // create feed and print it
         try {
-            final AtomFeed feed = new IngridFeed(results);
+            final int port = request.getServerPort();
+            final String url = "http://" + request.getServerName() + (port == 80 ? "" : ":" + port)
+                    + System.getProperty(IKeys.CONTEXT_IDENTIFIER) + "/";
+            final AtomFeed feed = new IngridFeed(results, url);
             feed.print(response);
         } catch (final Exception e) {
             e.printStackTrace();

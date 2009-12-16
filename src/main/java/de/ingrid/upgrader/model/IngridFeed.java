@@ -1,6 +1,5 @@
 package de.ingrid.upgrader.model;
 
-import java.net.InetAddress;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -18,12 +17,12 @@ public class IngridFeed extends AtomFeed {
 
     private final String _title = "iPlug Versionen";
 
-    private String _url = "http://{HOST}:8080/";
+    private final String _url;
 
-    public IngridFeed(final Map<Integer, Document> documents) throws Exception {
+    public IngridFeed(final Map<Integer, Document> documents, final String url) throws Exception {
         super();
         _documents = documents;
-        _url = _url.replace("{HOST}", InetAddress.getLocalHost().getCanonicalHostName());
+        _url = url;
         build();
     }
 

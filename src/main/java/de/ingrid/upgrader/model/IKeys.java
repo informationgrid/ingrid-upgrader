@@ -23,4 +23,6 @@ public interface IKeys {
     public static final String PERIOD_IDENTIFIER = "period";
 
     public static final String ID_PARAMETER = "id";
+
+    public static final String CONTEXT_IDENTIFIER = "context";
 }
