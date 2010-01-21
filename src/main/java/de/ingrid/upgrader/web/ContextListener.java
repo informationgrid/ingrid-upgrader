@@ -57,12 +57,5 @@ public class ContextListener implements ServletContextListener {
         final ManifestIndexer indexer = new ManifestIndexer(sourceFolder, targetFolder);
         final Timer timer = new Timer();
         timer.schedule(indexer, 2000, period); // start after 2secs
-
-        // set context
-        String contextPath = context.getContextPath();
-        if ("/".equals(contextPath)) {
-            contextPath = "";
-        }
-        System.setProperty(IKeys.CONTEXT_IDENTIFIER, contextPath);
     }
 }

@@ -7,7 +7,6 @@ import org.apache.lucene.document.Document;
 import org.w3c.dom.Element;
 
 import de.ingrid.upgrader.web.DetailsServlet;
-import de.ingrid.upgrader.web.DownloadServlet;
 
 public class IngridFeed extends AtomFeed {
 
@@ -22,7 +21,7 @@ public class IngridFeed extends AtomFeed {
     public IngridFeed(final Map<Integer, Document> documents, final String url) throws Exception {
         super();
         _documents = documents;
-        _url = url;
+        _url = url + (url.endsWith("/") ? "" : "/");
         build();
     }
 
@@ -50,7 +49,7 @@ public class IngridFeed extends AtomFeed {
             _xml.addNode(entry, "title", fileName);
             // link
             final Element link = _xml.addNode(entry, "link", null);
-            _xml.addAttribute(link, "href", _url + DownloadServlet.URI + "/" + fileName + "?" + IKeys.ID_PARAMETER
+            _xml.addAttribute(link, "href", _url + fileName + "?" + IKeys.ID_PARAMETER
                     + "=" + id);
             // id
             _xml.addNode(entry, "id", document.get(IKeys.ID_FIELD));

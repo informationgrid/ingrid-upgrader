@@ -68,9 +68,17 @@ public class FeedServlet extends HttpServlet {
 
         // create feed and print it
         try {
-            String url = request.getRequestURL().toString();
-            final int pos = url.indexOf(FeedServlet.URI);
-            url = url.substring(0, pos);
+            // get defined url
+            String url = System.getProperty("url");
+            if (url == null) {
+                // if no url exists use the requested url
+                url = request.getRequestURL().toString();
+                final int pos = url.indexOf(URI);
+                if (pos >= 0) {
+                    url = url.substring(0, pos);
+                }
+                url += DownloadServlet.URI;
+            }
             final AtomFeed feed = new IngridFeed(results, url);
             feed.print(response);
         } catch (final Exception e) {
