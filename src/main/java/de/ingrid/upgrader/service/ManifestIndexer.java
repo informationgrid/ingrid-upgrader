@@ -1,6 +1,7 @@
 package de.ingrid.upgrader.service;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,19 +135,14 @@ public class ManifestIndexer extends TimerTask {
 
     private Document fileToDocument(final File file) {
         // open manifest file
-        Manifest man = null;
+        Document doc = null;
         final String path = file.getAbsolutePath();
         try {
+            // create url and open stream
             final URL url = new URL("jar:file:" + path + "!/META-INF/MANIFEST.MF");
-            man = new Manifest(url.openStream());
-
-        } catch (final Exception e) {
-            LOG.debug("unable to open MANIFEST.MF!");
-        }
-
-        // get attributes
-        Document doc = null;
-        if (man != null) {
+            final InputStream stream = url.openStream();
+            final Manifest man = new Manifest(stream);
+            // get attributes
             final Attributes attr = man.getMainAttributes();
             if (attr != null) {
                 doc = new Document();
@@ -164,8 +160,13 @@ public class ManifestIndexer extends TimerTask {
                     final Field field = Field.Text(key, value);
                     doc.add(field);
                 }
+                // close stream, we do not need it any more
+                stream.close();
             }
+        } catch (final Exception e) {
+            LOG.debug("unable to open or close MANIFEST.MF of file '" + file + "'!");
         }
+
         return doc;
     }
 
