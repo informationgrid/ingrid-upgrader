@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<assembly>
+  <id>installer</id>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>src/main/release/conf</directory>
+      <outputDirectory>${project.build.finalName}/conf</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/release/scripts</directory>
+      <outputDirectory>${project.build.finalName}/</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/release/ant-installer</directory>
+      <outputDirectory>/</outputDirectory>
+      <filtered>true</filtered>
+    </fileSet>
+    <fileSet>
+      <directory>target/jetty-6.1.14</directory>
+      <outputDirectory>${project.build.finalName}/jetty</outputDirectory>
+      <!-- <excludes>
+        <exclude>**/etc/webdefault.xml</exclude>
+      </excludes>-->
+    </fileSet>
+    <fileSet>
+      <directory>target/installer</directory>
+      <outputDirectory>/</outputDirectory>
+    </fileSet>
+    <!--<fileSet>
+      <directory>target/jetty-6.1.14</directory>
+      <outputDirectory>${project.artifactId}-${project.version}/</outputDirectory>
+    </fileSet>-->
+    <fileSet>
+      <directory>target/site</directory>
+      <outputDirectory>${project.build.finalName}/doc</outputDirectory>
+    </fileSet>
+  </fileSets>
+  <files>
+    <!-- <file>
+      <source>src/main/release/conf/log4j.properties</source>
+      <outputDirectory>${project.build.finalName}/jetty/webapps/ROOT/WEB-INF/classes/</outputDirectory>
+    </file>-->
+    <!-- <file>
+      <source>src/main/release/jetty/webdefault.xml</source>
+      <outputDirectory>${project.build.finalName}/jetty/etc/</outputDirectory>
+    </file>-->
+  </files>
+  <!--<dependencySets>
+    <dependencySet>
+      <outputDirectory>${project.build.finalName}/lib</outputDirectory>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+      <excludes>
+        <exclude>de.ingrid:ingrid-installer</exclude>
+        <exclude>quartz:quartz</exclude>
+        <exclude>de.ingrid:ingrid-server-opensearch</exclude>
+      </excludes>
+    </dependencySet>
+  </dependencySets>-->
+</assembly>

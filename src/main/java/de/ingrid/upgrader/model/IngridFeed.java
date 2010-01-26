@@ -14,7 +14,7 @@ public class IngridFeed extends AtomFeed {
 
     private final String _name = "http://www.portalu.de";
 
-    private final String _title = "iPlug Versionen";
+    private final String _title = "Komponenten Versionen";
 
     private final String _url;
 
@@ -53,6 +53,10 @@ public class IngridFeed extends AtomFeed {
                     + "=" + id);
             // id
             _xml.addNode(entry, "id", document.get(IKeys.ID_FIELD));
+            // version
+            _xml.addNode(entry, "type", getFieldFromDoc(document, IKeys.IPLUG_TYPE_FIELD));
+            // version
+            _xml.addNode(entry, "version", getFieldFromDoc(document, IKeys.VERSION_FIELD));
             // updated
             final long time = Long.parseLong(document.get(IKeys.UPDATED_FIELD));
             _xml.addNode(entry, "updated", getDate(time));
@@ -92,21 +96,23 @@ public class IngridFeed extends AtomFeed {
 
     private String createSummary(final Document document, final int id) {
         // iplug type
-        String iplug = document.get(IKeys.IPLUG_TYPE_FIELD);
-        if (iplug == null) {
-            iplug = "unknown";
-        }
+        String iplug = getFieldFromDoc(document, IKeys.IPLUG_TYPE_FIELD);
         // iplug version
-        String version = document.get(IKeys.VERSION_FIELD);
-        if (version == null) {
-            version = "unknown";
-        }
+        String version = getFieldFromDoc(document,IKeys.VERSION_FIELD);
         // link
         final String link = _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id;
         // return
-        return "iPlug: '" + iplug + "'<br />version: '" + version + "'<br /><a href=\"" + link + "\">(more details)</a>";
+        return "component: '" + iplug + "'<br />version: '" + version + "'<br /><a href=\"" + link + "\">(more details)</a>";
     }
 
+    private String getFieldFromDoc(final Document document, final String field) {
+        String value = document.get(field);
+        if (value == null) {
+            value = "unknown";
+        }
+        return value;
+    }
+    
     private static String getFileName(final String path) {
         String file = path;
         int index = -1;

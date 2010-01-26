@@ -1,64 +1,162 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-        
-    <modelVersion>4.0.0</modelVersion>
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>ingrid-releases-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <artifactId>ingrid-upgrader</artifactId>
-    <packaging>war</packaging>
-    <version>1.0.0</version>
-    <name>ingrid-upgrader</name>
-    
-    <dependencies>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.9</version>
-        </dependency>
-        <dependency>
-            <groupId>lucene</groupId>
-            <artifactId>lucene</artifactId>
-            <version>1.4.3</version>
-        </dependency>
-        <dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>servlet-api</artifactId>
-		    <version>2.5</version>
-		</dependency>
-    </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <compilerArguments>
-                        <encoding>UTF8</encoding>
-                    </compilerArguments>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>maven-jetty-plugin</artifactId>
-                <version>6.1.14</version>
-                <configuration>
-                    <contextPath>/</contextPath>
-                    <classesDirectory>target/classes</classesDirectory>
-                    <scanTargets>
-                        <file>target/classes</file>
-                    </scanTargets>
-                    <connectors>
-                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>8080</port>
-                            <maxIdleTime>60000</maxIdleTime>
-                        </connector>
-                    </connectors>
-                    <scanIntervalSeconds>2</scanIntervalSeconds>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    
+    <version>1.0.3-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.ingrid</groupId>
+  <artifactId>ingrid-upgrader</artifactId>
+  <packaging>war</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>ingrid-upgrader</name>
+  <dependencies>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>lucene</groupId>
+      <artifactId>lucene</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>de.ingrid.m2</id>
+      <name>Maven2 Repo InGrid</name>
+      <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <compilerArguments>
+            <encoding>UTF8</encoding>
+          </compilerArguments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.14</version>
+        <configuration>
+          <contextPath>/</contextPath>
+          <classesDirectory>target/classes</classesDirectory>
+          <scanTargets>
+            <file>target/classes</file>
+          </scanTargets>
+          <connectors>
+            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+              <port>8089</port>
+              <maxIdleTime>60000</maxIdleTime>
+            </connector>
+          </connectors>
+          <scanIntervalSeconds>2</scanIntervalSeconds>
+        </configuration>
+        <dependencies>
+            <dependency>
+              <groupId>commons-logging</groupId>
+              <artifactId>commons-logging</artifactId>
+              <version>1.1</version>
+              <type>jar</type>
+            </dependency>
+            <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-jcl</artifactId>
+              <version>1.0.1</version>
+              <type>jar</type>
+            </dependency>
+            <dependency>
+              <groupId>log4j</groupId>
+              <artifactId>log4j</artifactId>
+              <version>1.2.13</version>
+              <type>jar</type>
+            </dependency>
+       </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+                <execution>
+                    <id>unzip-jetty</id>
+                    <phase>process-resources</phase>
+                    <goals>
+                        <goal>unpack</goal>
+                    </goals>
+                    <configuration>
+                        <artifactItems>
+                            <artifactItem>
+                                <groupId>jetty</groupId>
+                                <artifactId>jetty</artifactId>
+                                <version>6.1.14</version>
+                                <type>zip</type>
+                                <outputDirectory>
+                                    ${project.build.directory}/
+                                </outputDirectory>
+                            </artifactItem>
+                        </artifactItems>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <configuration>
+                        <tasks>
+                            <delete includeemptydirs="true">
+                                <fileset
+                                    dir="${project.build.directory}/jetty-6.1.14/webapps/"
+                                    includes="**/*" excludes="ROOT/**/*"
+                                />
+                            </delete>
+                            <delete dir="${project.build.directory}/jetty-6.1.14/contrib" />
+                            <delete
+                                dir="${project.build.directory}/jetty-6.1.14/examples"
+                            />
+                            <delete
+                                dir="${project.build.directory}/jetty-6.1.14/project-website"
+                            />
+                            <delete dir="${project.build.directory}/jetty-6.1.14/patches" />
+                            <delete dir="${project.build.directory}/jetty-6.1.14/modules" />
+                            <delete dir="${project.build.directory}/jetty-6.1.14/javadoc" />
+                            <delete dir="${project.build.directory}/jetty-6.1.14/extras" />
+                            <delete dir="${project.build.directory}/jetty-6.1.14/jxr" />
+                            <delete dir="${project.build.directory}/jetty-6.1.14/distribution" />
+                            <delete file="${project.build.directory}/jetty-6.1.14/pom.xml" />
+                            <delete includeemptydirs="true">
+                                <fileset
+                                    dir="${project.build.directory}/jetty-6.1.14/contexts"
+                                    includes="**/*"
+                                />
+                            </delete>
+                            <unzip dest="${project.build.directory}/jetty-6.1.14/webapps/ROOT"
+                                src="${project.build.directory}/${project.build.finalName}.war">
+                            </unzip>
+                        </tasks>
+                    </configuration>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                </execution>        
+            </executions>
+        </plugin>
+    </plugins>
+  </build>
 </project>

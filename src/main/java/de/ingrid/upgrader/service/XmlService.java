@@ -32,7 +32,7 @@ public class XmlService {
         try {
             db = dbf.newDocumentBuilder();
         } catch (final Exception e) {
-            LOG.error("unalbe to create document!");
+            LOG.error("unable to create document!");
             throw new Exception();
         }
         _doc = db.newDocument();
@@ -44,7 +44,7 @@ public class XmlService {
             final DocumentBuilder db = dbf.newDocumentBuilder();
             _doc = db.parse(file);
         } catch (final Exception e) {
-            LOG.error("unalbe to create document!");
+            LOG.error("unable to create document!");
             throw new Exception();
         }
     }

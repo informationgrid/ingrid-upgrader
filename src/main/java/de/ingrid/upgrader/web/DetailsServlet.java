@@ -18,7 +18,7 @@ import de.ingrid.upgrader.service.LuceneSearcher;
 
 public class DetailsServlet extends HttpServlet {
 
-    public static final String URI = "upgrader/details";
+    public static final String URI = "details";
 
     protected static final Logger LOG = Logger.getLogger(DetailsServlet.class);
 

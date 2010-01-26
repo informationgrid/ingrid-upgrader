@@ -19,7 +19,7 @@ public class DownloadServlet extends HttpServlet {
 
     protected final Logger LOG = Logger.getLogger(DownloadServlet.class);
 
-    public static final String URI = "upgrader/download";
+    public static final String URI = "download";
 
     private static final long serialVersionUID = 4145648142533979532L;
 

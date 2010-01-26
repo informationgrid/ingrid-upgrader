@@ -8,7 +8,7 @@ public interface IKeys {
 
     public static final String UPDATED_FIELD = "updated";
 
-    public static final String IPLUG_TYPE_FIELD = "iPlug-Type";
+    public static final String IPLUG_TYPE_FIELD = "ingridComponentType";
 
     public static final String VERSION_FIELD = "Implementation-Version";
 
