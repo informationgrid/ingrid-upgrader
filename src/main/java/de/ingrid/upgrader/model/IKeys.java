@@ -11,6 +11,8 @@ public interface IKeys {
     public static final String IPLUG_TYPE_FIELD = "ingridComponentType";
 
     public static final String VERSION_FIELD = "Implementation-Version";
+    
+    public static final String BUILD_FIELD = "Implementation-Build";
 
     public static final String INDEX_FOLDER = "index";
 
@@ -25,4 +27,8 @@ public interface IKeys {
     public static final String ID_PARAMETER = "id";
 
     public static final String CONTEXT_IDENTIFIER = "context";
+    
+    public static final String CHANGELOG_FILE = "/site/changes-report.html";
+    
+    public static final String CHANGELOG_STYLE = "/site/css/maven-theme.css";
 }

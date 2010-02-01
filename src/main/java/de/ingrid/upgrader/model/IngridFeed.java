@@ -1,5 +1,6 @@
 package de.ingrid.upgrader.model;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.apache.lucene.document.Document;
 import org.w3c.dom.Element;
 
 import de.ingrid.upgrader.web.DetailsServlet;
+import de.ingrid.upgrader.web.DownloadServlet;
 
 public class IngridFeed extends AtomFeed {
 
@@ -49,7 +51,7 @@ public class IngridFeed extends AtomFeed {
             _xml.addNode(entry, "title", fileName);
             // link
             final Element link = _xml.addNode(entry, "link", null);
-            _xml.addAttribute(link, "href", _url + fileName + "?" + IKeys.ID_PARAMETER
+            _xml.addAttribute(link, "href", _url + DownloadServlet.URI + "/" + fileName + "?" + IKeys.ID_PARAMETER
                     + "=" + id);
             // id
             _xml.addNode(entry, "id", document.get(IKeys.ID_FIELD));
@@ -57,6 +59,13 @@ public class IngridFeed extends AtomFeed {
             _xml.addNode(entry, "type", getFieldFromDoc(document, IKeys.IPLUG_TYPE_FIELD));
             // version
             _xml.addNode(entry, "version", getFieldFromDoc(document, IKeys.VERSION_FIELD));
+            // version
+            _xml.addNode(entry, "build", getFieldFromDoc(document, IKeys.BUILD_FIELD));
+            // changelog-link
+            // only write if changelog actually exists
+            if (new File(DetailsServlet.getPathOnly(document.get(IKeys.PATH_FIELD)) + IKeys.CHANGELOG_FILE).exists()) {
+                _xml.addNode(entry, "changelogLink", _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id);
+            }
             // updated
             final long time = Long.parseLong(document.get(IKeys.UPDATED_FIELD));
             _xml.addNode(entry, "updated", getDate(time));
@@ -99,10 +108,11 @@ public class IngridFeed extends AtomFeed {
         String iplug = getFieldFromDoc(document, IKeys.IPLUG_TYPE_FIELD);
         // iplug version
         String version = getFieldFromDoc(document,IKeys.VERSION_FIELD);
+        String build = getFieldFromDoc(document,IKeys.BUILD_FIELD).equals("") ? "" : " Build:" + getFieldFromDoc(document,IKeys.BUILD_FIELD);
         // link
         final String link = _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id;
         // return
-        return "component: '" + iplug + "'<br />version: '" + version + "'<br /><a href=\"" + link + "\">(more details)</a>";
+        return "component: '" + iplug + "'<br />version: '" + version + build + "'<br /><a href=\"" + link + "\">(more details)</a>";
     }
 
     private String getFieldFromDoc(final Document document, final String field) {

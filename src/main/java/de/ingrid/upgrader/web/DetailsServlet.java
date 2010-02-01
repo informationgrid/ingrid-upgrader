@@ -1,5 +1,7 @@
 package de.ingrid.upgrader.web;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Enumeration;
 
@@ -47,6 +49,53 @@ public class DetailsServlet extends HttpServlet {
 
         // print details
         printHtml(out, id, document);
+        
+        // print changelog if available
+        printChangelog(out, document);
+        
+    }
+
+    private void printChangelog(ServletOutputStream out, Document document) {
+        String path = null;
+        try {
+            path = getPathOnly(document.get(IKeys.PATH_FIELD));
+            final FileInputStream cssFile = new FileInputStream(path + IKeys.CHANGELOG_STYLE);
+            final FileInputStream file = new FileInputStream(path + IKeys.CHANGELOG_FILE);
+            final byte[] bytes = new byte[1024];
+            int read = -1;
+            
+            // first write the main style sheet
+            // it won't be the original view but pretty close!
+            out.println("<style type=\"text/css\" media=\"all\">");
+            while ((read = cssFile.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            out.println("</style>");
+            
+            // and then the content
+            while ((read = file.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            
+        } catch (FileNotFoundException e) {
+            // no changelog available
+            LOG.debug("No changelog-File found on path: " + path + "/site");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+    }
+
+    static public String getPathOnly(String filePath) {
+        String file = filePath.replace('\\', '/');
+        int index = -1;
+        int oldIndex = 0;
+        while ((index = file.indexOf('/')) > -1) {
+            oldIndex += index + 1;
+            file = file.substring(index + 1);
+        }
+        return filePath.substring(0, oldIndex);
     }
 
     private void printHtml(final ServletOutputStream out, final int id, final Document document) throws IOException {

@@ -77,7 +77,7 @@ public class FeedServlet extends HttpServlet {
                 if (pos >= 0) {
                     url = url.substring(0, pos);
                 }
-                url += DownloadServlet.URI;
+                //url += DownloadServlet.URI;
             }
             final AtomFeed feed = new IngridFeed(results, url);
             feed.print(response);
