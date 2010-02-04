@@ -1,0 +1,55 @@
+<project name="PortalU Installation">
+    <description>
+        Upgrade-Server Installation Script
+    </description>
+	<!-- set global properties for this build -->
+	<property name="componentName"     value="${project.artifactId}-${project.version}"/>
+    <property name="start-script" value="${installDir}/start.sh"/>
+	
+	<target name="extract" description="Extract all files to the installation directory.">
+		<unzip src="${antinstaller.jar}" dest="${installDir}">
+			<patternset>
+				<include name="${componentName}/**/*.*"/>
+			</patternset>
+		</unzip>
+		
+		<move toDir="${installDir}">
+			<fileset dir="${installDir}/${componentName}"/>
+		</move>
+    
+        <!-- logs-dir needs to be created since server will complain about a missing one later -->
+        <mkdir dir="${installDir}/logs"/>
+	</target>
+	
+	<target name="config" description="Configure the port the server shall run.">
+		<echo>Schreibe Konfiguration</echo>
+        <replace file="${start-script}" token="@SERVER_PORT@" value="${localServerPort}"/>
+        <replace file="${start-script}" token="@SOURCE_DIR@"  value="${sourceDir}"/>
+        <replace file="${start-script}" token="@EXTERNAL_URL@"  value="${externalUrl}"/>
+	</target>
+	
+	<target name="info">
+		<echo>
+=================
+Weiteres Vorgehen
+=================
+
+		</echo>
+		<echo>
+Gehen Sie ins Verzeichnis:
+${installDir}
+und rufen sie von der Kommandozeile folgendes auf
+"sh start.sh start", um im Webbrowser den Server unter
+der folgenden Adresse "http://localhost:${localServerPort}"
+zu verwenden. Anstelle von localhost koennen Sie
+auch die IP-Adresse des Computers eingeben!
+Bitte lesen Sie bzgl. der Administration die Kapitel unter
+"http://www.kst.portalu.de/wiki/index.php/...".
+
+Weitere Informationen entnehmen Sie bitte dem
+Online-Handbuch unter 
+http://www.kst.portalu.de/wiki/index.php/InGrid_Installation.
+		</echo>
+	</target>
+	
+</project>
