@@ -42,6 +42,8 @@ public class DetailsServlet extends HttpServlet {
         if (searcher == null) {
             return;
         }
+        
+        response.setContentType("text/html; charset=UTF-8");
 
         // get document
         final Document document = searcher.getReader().document(id);
