@@ -24,31 +24,22 @@
 	<target name="config" description="Configure the port the server shall run.">
 		<echo>Schreibe Konfiguration</echo>
         <replace file="${start-script}" token="@SERVER_PORT@" value="${localServerPort}"/>
-        <replace file="${start-script}" token="@SOURCE_DIR@"  value="${sourceDir}"/>
+        <replace file="${start-script}" token="@SCAN_DIR@"  value="${scanDir}"/>
         <replace file="${start-script}" token="@EXTERNAL_URL@"  value="${externalUrl}"/>
 	</target>
 	
 	<target name="info">
 		<echo>
-=================
-Weiteres Vorgehen
-=================
+====================
+Installation Beendet
+====================
 
-		</echo>
-		<echo>
-Gehen Sie ins Verzeichnis:
-${installDir}
-und rufen sie von der Kommandozeile folgendes auf
-"sh start.sh start", um im Webbrowser den Server unter
-der folgenden Adresse "http://localhost:${localServerPort}"
-zu verwenden. Anstelle von localhost koennen Sie
-auch die IP-Adresse des Computers eingeben!
-Bitte lesen Sie bzgl. der Administration die Kapitel unter
-"http://www.kst.portalu.de/wiki/index.php/...".
+Gehen Sie ins Verzeichnis: ${installDir}
+Rufen sie von der Kommandozeile "sh start.sh start" auf, um den Server zu starten.
+Im Webbrowser wird dieser unter der Adresse "http://localhost:${localServerPort}" zur Verfügung stehen.
+Anstelle von "localhost" koennen Sie auch die IP-Adresse des Computers eingeben.
 
-Weitere Informationen entnehmen Sie bitte dem
-Online-Handbuch unter 
-http://www.kst.portalu.de/wiki/index.php/InGrid_Installation.
+Bitte lesen Sie bzgl. der Administration die Kapitel unter 'http://www.kst.portalu.de/wiki/index.php?title=Upgrade_-_Server'.
 		</echo>
 	</target>
 	

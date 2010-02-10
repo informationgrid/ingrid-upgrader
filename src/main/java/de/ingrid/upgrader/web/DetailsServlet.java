@@ -20,7 +20,9 @@ import de.ingrid.upgrader.service.LuceneSearcher;
 
 public class DetailsServlet extends HttpServlet {
 
-    public static final String URI = "details";
+    public static final String DETAILS = "details";
+
+    public static final String URI = FeedServlet.URI + "/" + DETAILS;
 
     protected static final Logger LOG = Logger.getLogger(DetailsServlet.class);
 
@@ -42,7 +44,7 @@ public class DetailsServlet extends HttpServlet {
         if (searcher == null) {
             return;
         }
-        
+
         response.setContentType("text/html; charset=UTF-8");
 
         // get document
@@ -51,13 +53,13 @@ public class DetailsServlet extends HttpServlet {
 
         // print details
         printHtml(out, id, document);
-        
+
         // print changelog if available
         printChangelog(out, document);
-        
+
     }
 
-    private void printChangelog(ServletOutputStream out, Document document) {
+    private void printChangelog(final ServletOutputStream out, final Document document) {
         String path = null;
         try {
             path = getPathOnly(document.get(IKeys.PATH_FIELD));
@@ -65,7 +67,7 @@ public class DetailsServlet extends HttpServlet {
             final FileInputStream file = new FileInputStream(path + IKeys.CHANGELOG_FILE);
             final byte[] bytes = new byte[1024];
             int read = -1;
-            
+
             // first write the main style sheet
             // it won't be the original view but pretty close!
             out.println("<style type=\"text/css\" media=\"all\">");
@@ -73,23 +75,23 @@ public class DetailsServlet extends HttpServlet {
                 out.write(bytes, 0, read);
             }
             out.println("</style>");
-            
+
             // and then the content
             while ((read = file.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
-            
-        } catch (FileNotFoundException e) {
+
+        } catch (final FileNotFoundException e) {
             // no changelog available
             LOG.debug("No changelog-File found on path: " + path + "/site");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
     }
 
-    static public String getPathOnly(String filePath) {
+    static public String getPathOnly(final String filePath) {
         String file = filePath.replace('\\', '/');
         int index = -1;
         int oldIndex = 0;

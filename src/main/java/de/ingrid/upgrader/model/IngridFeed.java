@@ -51,7 +51,7 @@ public class IngridFeed extends AtomFeed {
             _xml.addNode(entry, "title", fileName);
             // link
             final Element link = _xml.addNode(entry, "link", null);
-            _xml.addAttribute(link, "href", _url + DownloadServlet.URI + "/" + fileName + "?" + IKeys.ID_PARAMETER
+            _xml.addAttribute(link, "href", _url + DownloadServlet.DOWNLOAD + "/" + fileName + "?" + IKeys.ID_PARAMETER
                     + "=" + id);
             // id
             _xml.addNode(entry, "id", document.get(IKeys.ID_FIELD));
@@ -64,7 +64,8 @@ public class IngridFeed extends AtomFeed {
             // changelog-link
             // only write if changelog actually exists
             if (new File(DetailsServlet.getPathOnly(document.get(IKeys.PATH_FIELD)) + IKeys.CHANGELOG_FILE).exists()) {
-                _xml.addNode(entry, "changelogLink", _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id);
+                _xml.addNode(entry, "changelogLink", _url + DetailsServlet.DETAILS + "?" + IKeys.ID_PARAMETER + "="
+                        + id);
             }
             // updated
             final long time = Long.parseLong(document.get(IKeys.UPDATED_FIELD));
@@ -105,12 +106,12 @@ public class IngridFeed extends AtomFeed {
 
     private String createSummary(final Document document, final int id) {
         // iplug type
-        String iplug = getFieldFromDoc(document, IKeys.IPLUG_TYPE_FIELD);
+        final String iplug = getFieldFromDoc(document, IKeys.IPLUG_TYPE_FIELD);
         // iplug version
-        String version = getFieldFromDoc(document,IKeys.VERSION_FIELD);
-        String build = getFieldFromDoc(document,IKeys.BUILD_FIELD).equals("") ? "" : " Build:" + getFieldFromDoc(document,IKeys.BUILD_FIELD);
+        final String version = getFieldFromDoc(document,IKeys.VERSION_FIELD);
+        final String build = getFieldFromDoc(document,IKeys.BUILD_FIELD).equals("") ? "" : " Build:" + getFieldFromDoc(document,IKeys.BUILD_FIELD);
         // link
-        final String link = _url + DetailsServlet.URI + "?" + IKeys.ID_PARAMETER + "=" + id;
+        final String link = _url + DetailsServlet.DETAILS + "?" + IKeys.ID_PARAMETER + "=" + id;
         // return
         return "component: '" + iplug + "'<br />version: '" + version + build + "'<br /><a href=\"" + link + "\">(more details)</a>";
     }
@@ -122,7 +123,7 @@ public class IngridFeed extends AtomFeed {
         }
         return value;
     }
-    
+
     private static String getFileName(final String path) {
         String file = path;
         int index = -1;

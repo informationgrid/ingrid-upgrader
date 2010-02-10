@@ -17,9 +17,11 @@ import de.ingrid.upgrader.service.LuceneSearcher;
 
 public class DownloadServlet extends HttpServlet {
 
-    protected final Logger LOG = Logger.getLogger(DownloadServlet.class);
+    public static final String DOWNLOAD = "download";
 
-    public static final String URI = "download";
+    public static final String URI = FeedServlet.URI + "/" + DOWNLOAD;
+
+    protected final Logger LOG = Logger.getLogger(DownloadServlet.class);
 
     private static final long serialVersionUID = 4145648142533979532L;
 

@@ -18,7 +18,7 @@ INGRID_HOME=`cd "$THIS_DIR" ; pwd`
 PID=$INGRID_HOME/ingrid.pid
 
 # -Durl describes the URL that can be accessed from extern
-INGRID_OPTS="-Durl=@EXTERNAL_URL@ -Djetty.port=@SERVER_PORT@ -Dsource=@SOURCE_DIR@ -Dindex=./index -Djetty.reload=manual -Djetty.home=./jetty"
+INGRID_OPTS="-Durl=@EXTERNAL_URL@ -Djetty.port=@SERVER_PORT@ -Dsource=@SCAN_DIR@ -Dindex=./index -Djetty.reload=manual -Djetty.home=./jetty"
 
 # functions
 stopIplug()

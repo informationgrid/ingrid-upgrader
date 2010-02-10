@@ -70,14 +70,18 @@ public class FeedServlet extends HttpServlet {
         try {
             // get defined url
             String url = System.getProperty("url");
-            if (url == null) {
+            if (url == null || "".equals(url.trim())) {
                 // if no url exists use the requested url
                 url = request.getRequestURL().toString();
                 final int pos = url.indexOf(URI);
                 if (pos >= 0) {
-                    url = url.substring(0, pos);
+                    url = url.substring(0, pos + URI.length());
+                } else {
+                    url = url + "/" + URI;
                 }
-                //url += DownloadServlet.URI;
+            }
+            if (!url.endsWith("/")) {
+                url = url + "/";
             }
             final AtomFeed feed = new IngridFeed(results, url);
             feed.print(response);
