@@ -23,22 +23,30 @@ INGRID_OPTS="-Durl=@EXTERNAL_URL@ -Djetty.port=@SERVER_PORT@ -Dsource=@SCAN_DIR@
 # functions
 stopIplug()
 {
-  echo "Try stopping jetty ($INGRID_HOME)..."
+  echo "Try stopping ingrid component ($INGRID_HOME)..."
   if [ -f $PID ]; then
-      procid=`cat $PID`
-      idcount=`ps -p $procid | wc -l`
-      if [ $idcount -eq 2 ]; then
-        echo stopping $command
-        kill -9 `cat $PID`
-        echo "process ($procid) has been terminated."
-      else
-        echo "process is not running. Exit."
-        exit 1
-      fi
-    else
-      echo "process is not running. Exit."
-      exit 1
-    fi
+		procid=`cat $PID`
+		idcount=`ps -p $procid | wc -l`
+		if [ $idcount -eq 2 ]; then
+			echo stopping $command
+			kill `cat $PID`
+			sleep 3
+			idcount=`ps -p $procid | wc -l`
+			if [ $idcount -eq 1 ]; then
+				echo "process ($procid) has been terminated."
+				unlink $PID
+				exit 0
+			else
+				echo "process is still running. Exit."
+				exit 1
+			fi 
+		else
+			echo "process is not running. Exit."
+			unlink $PID 
+		fi
+	else
+		echo "process is not running. Exit."
+	fi
 }
 
 stopNoExitIplug()
@@ -91,6 +99,8 @@ startIplug()
     JAVA_HEAP_MAX="-Xmx""$INGRID_HEAPSIZE""m"
     echo "run with heapsize $JAVA_HEAP_MAX"
   fi
+	
+  INGRID_OPTS="$INGRID_OPTS -Dingrid_home=$INGRID_HOME"
 
   # run it
   exec nohup "$JAVA" $INGRID_HEAPSIZE $INGRID_OPTS -jar jetty/start.jar > console.log &
