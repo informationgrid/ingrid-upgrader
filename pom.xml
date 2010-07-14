@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>ingrid-releases-pom</artifactId>
     <groupId>de.ingrid</groupId>
@@ -11,7 +9,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-upgrader</artifactId>
   <packaging>war</packaging>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>ingrid-upgrader</name>
   <dependencies>
     <dependency>
@@ -121,18 +119,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                     <configuration>
                         <tasks>
                             <delete includeemptydirs="true">
-                                <fileset
-                                    dir="${project.build.directory}/jetty-6.1.14/webapps/"
-                                    includes="**/*" excludes="ROOT/**/*"
-                                />
+                                <fileset dir="${project.build.directory}/jetty-6.1.14/webapps/" includes="**/*" excludes="ROOT/**/*" />
                             </delete>
                             <delete dir="${project.build.directory}/jetty-6.1.14/contrib" />
-                            <delete
-                                dir="${project.build.directory}/jetty-6.1.14/examples"
-                            />
-                            <delete
-                                dir="${project.build.directory}/jetty-6.1.14/project-website"
-                            />
+                            <delete dir="${project.build.directory}/jetty-6.1.14/examples" />
+                            <delete dir="${project.build.directory}/jetty-6.1.14/project-website" />
                             <delete dir="${project.build.directory}/jetty-6.1.14/patches" />
                             <delete dir="${project.build.directory}/jetty-6.1.14/modules" />
                             <delete dir="${project.build.directory}/jetty-6.1.14/javadoc" />
@@ -141,13 +132,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                             <delete dir="${project.build.directory}/jetty-6.1.14/distribution" />
                             <delete file="${project.build.directory}/jetty-6.1.14/pom.xml" />
                             <delete includeemptydirs="true">
-                                <fileset
-                                    dir="${project.build.directory}/jetty-6.1.14/contexts"
-                                    includes="**/*"
-                                />
+                                <fileset dir="${project.build.directory}/jetty-6.1.14/contexts" includes="**/*" />
                             </delete>
-                            <unzip dest="${project.build.directory}/jetty-6.1.14/webapps/ROOT"
-                                src="${project.build.directory}/${project.build.finalName}.war">
+                            <unzip dest="${project.build.directory}/jetty-6.1.14/webapps/ROOT" src="${project.build.directory}/${project.build.finalName}.war">
                             </unzip>
                         </tasks>
                     </configuration>
@@ -177,4 +164,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </plugin>
     </plugins>
   </build>
+
+  <scm>
+    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/tags/ingrid-upgrader-1.0.0</connection>
+    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/tags/ingrid-upgrader-1.0.0</developerConnection>
+  </scm>
 </project>
