@@ -9,8 +9,12 @@
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-upgrader</artifactId>
   <packaging>war</packaging>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>ingrid-upgrader</name>
+  <scm>
+    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-upgrader/trunk</connection>
+    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-upgrader/trunk</developerConnection>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>log4j</groupId>
@@ -164,9 +168,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <scm>
-    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/tags/ingrid-upgrader-1.0.0</connection>
-    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/tags/ingrid-upgrader-1.0.0</developerConnection>
-  </scm>
 </project>
