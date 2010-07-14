@@ -5,7 +5,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <parent>
     <artifactId>ingrid-releases-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.1.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
@@ -30,8 +30,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   </dependencies>
   <repositories>
     <repository>
-      <id>de.ingrid.m2</id>
-      <name>Maven2 Repo InGrid</name>
+      <id>de.ingrid.all</id>
+      <name>Maven Repo InGrid</name>
       <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
     </repository>
   </repositories>
@@ -41,8 +41,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>1.6</source>
+          <target>1.6</target>
           <compilerArguments>
             <encoding>UTF8</encoding>
           </compilerArguments>
@@ -157,6 +157,24 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                 </execution>        
             </executions>
         </plugin>
+        <plugin>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<configuration>
+				<archive>
+				    <manifestEntries>
+                        <ingridComponentType>SERVER_UPGRADE</ingridComponentType>
+                    </manifestEntries>
+				</archive>
+			</configuration>
+		</plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <configuration>
+<!-- NOTICE: REDEFINE directory on distribution server -->
+          <url>file:///opt/ingrid/distributions/ingrid-server-upgrade/${project.version}</url>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
