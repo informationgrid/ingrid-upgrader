@@ -1,7 +1,12 @@
 package de.ingrid.upgrader.model;
 
-import java.io.File;
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.document.Document;
@@ -27,6 +32,24 @@ public class IngridFeed extends AtomFeed {
         build();
     }
 
+    private List<Integer> getSortedDocumentIDs(Map<Integer, Document> documents) {
+        List<Integer> sortedIds = new ArrayList<Integer>();
+        List<String> toSort = new ArrayList<String>();
+        Map<String, Integer> idDocMap = new HashMap<String, Integer>();
+        for (Integer id : documents.keySet()) {
+            final Document document = documents.get(id);
+            String fileName = getFileName(document.get(IKeys.PATH_FIELD));
+            idDocMap.put(fileName, id);
+            toSort.add(fileName);
+        }
+        Collections.sort(toSort);
+        for (String value : toSort) {
+            sortedIds.add(idDocMap.get(value));
+        }
+        
+        return sortedIds;
+    }
+
     protected void build() {
         // root node
         final Element feed = _xml.addNode(_xml.getDocument(), "feed", null);
@@ -40,9 +63,11 @@ public class IngridFeed extends AtomFeed {
         _xml.addNode(feed, "id", _url);
         // updated
         _xml.addNode(feed, "updated", getFirstDate());
+        
+        List<Integer> sortedDocumentIDs = getSortedDocumentIDs(_documents);
 
         // entries
-        for (final Integer id : _documents.keySet()) {
+        for (final Integer id : sortedDocumentIDs) {
             final Document document = _documents.get(id);
             // entry
             final Element entry = _xml.addNode(feed, "entry", null);
@@ -62,11 +87,10 @@ public class IngridFeed extends AtomFeed {
             // version
             _xml.addNode(entry, "build", getFieldFromDoc(document, IKeys.BUILD_FIELD));
             // changelog-link
-            // only write if changelog actually exists
-            if (new File(DetailsServlet.getPathOnly(document.get(IKeys.PATH_FIELD)) + IKeys.CHANGELOG_FILE).exists()) {
-                _xml.addNode(entry, "changelogLink", _url + DetailsServlet.DETAILS + "?" + IKeys.ID_PARAMETER + "="
-                        + id);
-            }
+            // always show changeloglink, even if only manifest information is available
+            //if (new File(DetailsServlet.getPathOnly(document.get(IKeys.PATH_FIELD)) + IKeys.CHANGELOG_FILE).exists()) {
+            _xml.addNode(entry, "changelogLink", _url + DetailsServlet.DETAILS + "?" + IKeys.ID_PARAMETER + "=" + id);
+            //}
             // updated
             final long time = Long.parseLong(document.get(IKeys.UPDATED_FIELD));
             _xml.addNode(entry, "updated", getDate(time));
@@ -78,30 +102,9 @@ public class IngridFeed extends AtomFeed {
     }
 
     public static String getDate(final long time) {
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
-        // get date
-        final int year = cal.get(Calendar.YEAR);
-        final int month = cal.get(Calendar.MONTH);
-        final int day = cal.get(Calendar.DATE);
-        final int hour = cal.get(Calendar.HOUR);
-        final int minute = cal.get(Calendar.MINUTE);
-        final int second = cal.get(Calendar.SECOND);
-        // build string
-        final StringBuilder sb = new StringBuilder();
-        sb.append(year);
-        sb.append("-");
-        sb.append(month < 10 ? "0" + month : month);
-        sb.append("-");
-        sb.append(day < 10 ? "0" + day : day);
-        sb.append("T");
-        sb.append(hour < 10 ? "0" + hour : hour);
-        sb.append(":");
-        sb.append(minute < 10 ? "0" + minute : minute);
-        sb.append(":");
-        sb.append(second < 10 ? "0" + second : second);
-        sb.append("Z");
-        return sb.toString();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'");
+        Date date = new Date(time);
+        return df.format(date);
     }
 
     private String createSummary(final Document document, final int id) {
@@ -134,11 +137,11 @@ public class IngridFeed extends AtomFeed {
     }
 
     private String getFirstDate() {
-        long time = Long.MAX_VALUE;
+        long time = Long.MIN_VALUE;
         for (final Integer id : _documents.keySet()) {
             final Document document = _documents.get(id);
             final long current = Long.parseLong(document.get(IKeys.UPDATED_FIELD));
-            if (current < time) {
+            if (current > time) {
                 time = current;
             }
         }

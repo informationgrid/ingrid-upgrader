@@ -5,7 +5,7 @@
     <author email="andre.wallat@wemove.com">André Wallat</author>
   </properties>
   <body>
-    <release version="1.0.0" date="2010-07-14" description="Initial Release">
+    <release version="1.0.0" date="2010-08-03" description="Initial Release">
       <action type="add" dev="wemove" issue="INGRID21-122">
         Implementierung des Upgrade Servers.
       </action>
