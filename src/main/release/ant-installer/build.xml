@@ -5,6 +5,8 @@
 	<!-- set global properties for this build -->
 	<property name="componentName"     value="${project.artifactId}-${project.version}"/>
     <property name="start-script" value="${installDir}/start.sh"/>
+    <property name="realm-properties" value="${installDir}/jetty/etc/realm.properties"/>
+    <property name="web-xml" value="${installDir}/jetty/webapps/ROOT/WEB-INF/web.xml"/>
 	
 	<target name="extract" description="Extract all files to the installation directory.">
 		<unzip src="${antinstaller.jar}" dest="${installDir}">
@@ -26,7 +28,13 @@
         <replace file="${start-script}" token="@SERVER_PORT@" value="${localServerPort}"/>
         <replace file="${start-script}" token="@SCAN_DIR@"  value="${scanDir}"/>
         <replace file="${start-script}" token="@EXTERNAL_URL@"  value="${externalUrl}"/>
-	</target>
+    </target>        
+    
+    <target name="security" description="Configure the security option.">
+        <replace file="${realm-properties}" token="@USERNAME@"  value="${username}"/>
+        <replace file="${realm-properties}" token="@PASSWORD@"  value="${password}"/>
+        <replace file="${web-xml}" token="@DEACTIVATE_SECURITY@"  value=""/>
+    </target>
 	
 	<target name="info">
 		<echo>

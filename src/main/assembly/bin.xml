@@ -22,18 +22,14 @@
     <fileSet>
       <directory>target/jetty-6.1.14</directory>
       <outputDirectory>${project.build.finalName}/jetty</outputDirectory>
-      <!-- <excludes>
-        <exclude>**/etc/webdefault.xml</exclude>
-      </excludes>-->
+      <excludes>
+        <exclude>**/etc/realm.properties</exclude>
+      </excludes>
     </fileSet>
     <fileSet>
       <directory>target/installer</directory>
       <outputDirectory>/</outputDirectory>
     </fileSet>
-    <!--<fileSet>
-      <directory>target/jetty-6.1.14</directory>
-      <outputDirectory>${project.artifactId}-${project.version}/</outputDirectory>
-    </fileSet>-->
     <fileSet>
       <directory>target/site</directory>
       <outputDirectory>${project.build.finalName}/doc</outputDirectory>
@@ -48,6 +44,10 @@
       <source>src/main/release/jetty/webdefault.xml</source>
       <outputDirectory>${project.build.finalName}/jetty/etc/</outputDirectory>
     </file>-->
+    <file>
+      <source>src/main/release/customFiles/realm.properties</source>
+      <outputDirectory>${project.build.finalName}/jetty/etc/</outputDirectory>
+    </file>
   </files>
   <!--<dependencySets>
     <dependencySet>

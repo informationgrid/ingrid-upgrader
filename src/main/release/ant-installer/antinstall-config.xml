@@ -4,7 +4,7 @@
 		ui						="swing,text,swing-auto,text-auto"
 		loadDefaults			="prompt"
 		verbose					="true"
-		debug					="true"
+		debug					="false"
 		lookAndFeel				="org.tp23.jgoodies.plaf.plastic.PlasticXPLookAndFeel"
 		name					="Upgrade-Server Installation"
 		windowIcon				="/resources/icons/logoIcon.gif"
@@ -49,7 +49,37 @@
 				displayText		="Externe URL:"
 				property		="externalUrl"
 				defaultValue	="http://www.portalu.de/update"/>
+        <!-- 
+        <target-select
+                property      ="securityChoice"
+                displayText ="Passwortabfrage:"
+                defaultValue="true">
+                <option text="Ja" value="loginConfig"/>
+                <option text="Nein" value="noSecurity"/>
+        </target-select>
+        -->
+
 	</page>
+    
+    <page
+            type        ="input"
+            ifTarget    ="loginConfig"
+            name        ="LoginOptions"
+            displayText ="Einstellungen für den Upgrade-Server"
+            target      ="security">
+            
+        <text
+                explanatoryText ="Set the username for accessing the site (leave blank if no authentication is needed)."           
+                displayText     ="Username:"
+                property        ="username"
+                defaultValue    =""/>
+        <text
+                explanatoryText ="Set the password for accessing the site (leave blank if no authentication is needed)."           
+                displayText     ="Password:"
+                property        ="password"
+                defaultValue    =""/>
+    </page>
+            
 
 	<!--  type="input" shows a list of editable options for the installer -->
 	<page
