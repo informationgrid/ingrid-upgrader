@@ -5,6 +5,12 @@
     <author email="andre.wallat@wemove.com">André Wallat</author>
   </properties>
   <body>
+    <release version="3.3.0" date="2013-03-05" description="Release InGrid 3.3">
+      <action type="update" dev="wemove">
+        Use most current dependencies (jars), NO FUNCTIONAL CHANGES !
+      </action>
+    </release>
+
     <release version="3.0.1" date="2011-07-04" description="Add-Ons + Bugfixes for InGrid 3.0">
       <action type="add" dev="wemove" issue="INGRID-1900">
         Added login security (which can be activated in web.xml).
