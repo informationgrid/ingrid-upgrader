@@ -9,11 +9,11 @@
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-upgrader</artifactId>
   <packaging>war</packaging>
-  <version>3.3.0</version>
+  <version>3.4.0-SNAPSHOT</version>
   <name>ingrid-upgrader</name>
   <scm>
-    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-upgrader/tags/ingrid-upgrader-3.3.0</connection>
-    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-upgrader/tags/ingrid-upgrader-3.3.0</developerConnection>
+    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-upgrader/trunk</connection>
+    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-upgrader/trunk</developerConnection>
   </scm>
   <dependencies>
     <dependency>
