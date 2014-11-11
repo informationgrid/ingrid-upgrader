@@ -3,7 +3,7 @@
   <parent>
     <artifactId>ingrid-releases-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>3.3.0</version>
+    <version>3.5.0-SNAPSHOT-R304</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
@@ -19,10 +19,12 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
     </dependency>
     <dependency>
       <groupId>lucene</groupId>
       <artifactId>lucene</artifactId>
+      <version>1.4.3</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -145,7 +147,7 @@
                     <goals>
                         <goal>run</goal>
                     </goals>
-                </execution>        
+                </execution>
             </executions>
         </plugin>
         <plugin>
