@@ -10,10 +10,10 @@
   <artifactId>ingrid-upgrader</artifactId>
   <packaging>war</packaging>
   <version>3.4.0-SNAPSHOT</version>
-  <name>ingrid-upgrader</name>
+  <name>InGrid Upgrader</name>
   <scm>
-    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-upgrader/trunk</connection>
-    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-upgrader/trunk</developerConnection>
+    <connection>scm:git:git@github.com:informationgrid/ingrid-upgrader.git</connection>
+    <developerConnection>scm:git:git@github.com:informationgrid/ingrid-upgrader.git</developerConnection>
   </scm>
   <dependencies>
     <dependency>
@@ -36,7 +36,7 @@
     <repository>
       <id>de.ingrid.all</id>
       <name>Maven Repo InGrid</name>
-      <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
+      <url>https://dev.informationgrid.eu/archiva/repository/ingrid-all</url>
     </repository>
   </repositories>
   <build>
