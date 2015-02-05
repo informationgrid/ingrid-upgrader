@@ -3,7 +3,7 @@
   <parent>
     <artifactId>ingrid-releases-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>3.5.0-SNAPSHOT-R304</version>
+    <version>3.5.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
@@ -151,15 +151,15 @@
             </executions>
         </plugin>
         <plugin>
-			<artifactId>maven-assembly-plugin</artifactId>
-			<configuration>
-				<archive>
-				    <manifestEntries>
-                        <ingridComponentType>SERVER_UPGRADE</ingridComponentType>
-                    </manifestEntries>
-				</archive>
-			</configuration>
-		</plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+            <manifestEntries>
+                <ingridComponentType>SERVER_UPGRADE</ingridComponentType>
+            </manifestEntries>
+        </archive>
+      </configuration>
+    </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
