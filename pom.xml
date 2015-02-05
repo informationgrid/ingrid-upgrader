@@ -9,12 +9,12 @@
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-upgrader</artifactId>
   <packaging>war</packaging>
-  <version>3.5.0</version>
+  <version>3.6.0-SNAPSHOT</version>
   <name>InGrid Upgrader</name>
   <scm>
     <connection>scm:git:git@github.com:informationgrid/ingrid-upgrader.git</connection>
     <developerConnection>scm:git:git@github.com:informationgrid/ingrid-upgrader.git</developerConnection>
-    <tag>ingrid-upgrader-3.5.0</tag>
+    <tag>HEAD</tag>
   </scm>
   <dependencies>
     <dependency>
