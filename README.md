@@ -4,9 +4,9 @@ Upgrade Server
 This software is part of the InGrid software package. The upgrade server 
 
 - scans a distribution directory for changed ingrid components
-- delivers a RSS feed with information about all ingrid components
+- delivers an ATOM feed with information about all ingrid components
 
-The RSS feed is the base for the Upgrade Client that is part of the InGrid Portals Administration GUI.
+The ATOM feed is the base for the Upgrade Client that is part of the InGrid Portals Administration GUI.
 
 
 Requirements
