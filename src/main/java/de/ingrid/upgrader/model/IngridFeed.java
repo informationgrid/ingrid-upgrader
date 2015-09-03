@@ -41,7 +41,7 @@ public class IngridFeed extends AtomFeed {
 
     private final Map<Integer, Document> _documents;
 
-    private final String _name = "http://www.portalu.de";
+    private final String _name = "http://www.informationgrid.eu";
 
     private final String _title = "Komponenten Versionen";
 
