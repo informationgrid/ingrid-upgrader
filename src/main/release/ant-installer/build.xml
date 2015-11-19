@@ -20,7 +20,7 @@
   limitations under the Licence.
   **************************************************#
   -->
-<project name="PortalU Installation">
+<project name="InGrid-Portal Installation">
     <description>
         Upgrade-Server Installation Script
     </description>
@@ -69,7 +69,7 @@ Rufen sie von der Kommandozeile "sh start.sh start" auf, um den Server zu starte
 Im Webbrowser wird dieser unter der Adresse "http://localhost:${localServerPort}" zur Verfügung stehen.
 Anstelle von "localhost" koennen Sie auch die IP-Adresse des Computers eingeben.
 
-Bitte lesen Sie bzgl. der Administration die Kapitel unter 'http://www.kst.portalu.de/wiki/index.php?title=Upgrade_-_Server'.
+Bitte lesen Sie bzgl. der Administration die Kapitel unter 'http://www.ingrid-oss.eu'.
 		</echo>
 	</target>
 	

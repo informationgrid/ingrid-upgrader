@@ -71,7 +71,7 @@
 				explanatoryText	="Externe URL unter der der Upgrade-Server erreichbar ist. Diese URL wird für die Linkgenerierung benötigt, so dass diese auf eine gültige Adresse verweisen. Befindet sich der Server bspw. hinter einer Weiterleitung eines Apache-Servers, so muss die externe erreichbare URL angegeben werden, da sie nicht automatisch ermittelt werden kann."
 				displayText		="Externe URL:"
 				property		="externalUrl"
-				defaultValue	="http://www.portalu.de/update"/>
+				defaultValue	="http://www.informationgrid.eu/update"/>
         <!-- 
         <target-select
                 property      ="securityChoice"

@@ -3,13 +3,13 @@
   <parent>
     <artifactId>ingrid-releases-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>3.6.0-SNAPSHOT</version>
+    <version>3.6.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-upgrader</artifactId>
   <packaging>war</packaging>
-  <version>3.6.0-SNAPSHOT</version>
+  <version>3.6.1</version>
   <name>InGrid Upgrader</name>
   <description>This component manages distributions and delivers RSS-feeds, which are used by the InGrid-Portal.</description>
   <scm>
@@ -125,22 +125,22 @@
             <configuration>
               <tasks>
                 <delete includeemptydirs="true">
-                  <fileset dir="${project.build.directory}/jetty-6.1.14/webapps/" excludes="ROOT/**/*" includes="**/*"/>
+                  <fileset dir="${project.build.directory}/jetty-6.1.14/webapps/" excludes="ROOT/**/*" includes="**/*" />
                 </delete>
-                <delete dir="${project.build.directory}/jetty-6.1.14/contrib"/>
-                <delete dir="${project.build.directory}/jetty-6.1.14/examples"/>
-                <delete dir="${project.build.directory}/jetty-6.1.14/project-website"/>
-                <delete dir="${project.build.directory}/jetty-6.1.14/patches"/>
-                <delete dir="${project.build.directory}/jetty-6.1.14/modules"/>
-                <delete dir="${project.build.directory}/jetty-6.1.14/javadoc"/>
-                <delete dir="${project.build.directory}/jetty-6.1.14/extras"/>
-                <delete dir="${project.build.directory}/jetty-6.1.14/jxr"/>
-                <delete dir="${project.build.directory}/jetty-6.1.14/distribution"/>
-                <delete file="${project.build.directory}/jetty-6.1.14/pom.xml"/>
+                <delete dir="${project.build.directory}/jetty-6.1.14/contrib" />
+                <delete dir="${project.build.directory}/jetty-6.1.14/examples" />
+                <delete dir="${project.build.directory}/jetty-6.1.14/project-website" />
+                <delete dir="${project.build.directory}/jetty-6.1.14/patches" />
+                <delete dir="${project.build.directory}/jetty-6.1.14/modules" />
+                <delete dir="${project.build.directory}/jetty-6.1.14/javadoc" />
+                <delete dir="${project.build.directory}/jetty-6.1.14/extras" />
+                <delete dir="${project.build.directory}/jetty-6.1.14/jxr" />
+                <delete dir="${project.build.directory}/jetty-6.1.14/distribution" />
+                <delete file="${project.build.directory}/jetty-6.1.14/pom.xml" />
                 <delete includeemptydirs="true">
-                  <fileset dir="${project.build.directory}/jetty-6.1.14/contexts" includes="**/*"/>
+                  <fileset dir="${project.build.directory}/jetty-6.1.14/contexts" includes="**/*" />
                 </delete>
-                <unzip dest="${project.build.directory}/jetty-6.1.14/webapps/ROOT" src="${project.build.directory}/${project.build.finalName}.war"/>
+                <unzip dest="${project.build.directory}/jetty-6.1.14/webapps/ROOT" src="${project.build.directory}/${project.build.finalName}.war" />
               </tasks>
             </configuration>
             <goals>
@@ -168,13 +168,15 @@
           </execution>
         </executions>
       </plugin>
-      <!-- <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>wagon-maven-plugin</artifactId>
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>1.0-m5.1</version>
         <configuration>
-          <url>file:///opt/ingrid/distributions/ingrid-server-upgrade/${project.version}</url>
+          <defaultOriginUrl>https://github.com/informationgrid/ingrid-upgrader</defaultOriginUrl>
+          <noDeploy>true</noDeploy>
         </configuration>
-      </plugin> -->
+      </plugin>
     </plugins>
   </build>
 </project>
